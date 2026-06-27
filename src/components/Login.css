@@ -1,0 +1,471 @@
+.login-section {
+  --color-card: #fffbf4;
+  --color-border-input: #b8b0a6;
+  --color-border-input-focus: #444444;
+  --color-btn: #1f1f1f;
+  --color-btn-hover: #333333;
+  --color-text: #2c2c2c;
+  --color-text-muted: #999999;
+  --color-link: #111111;
+  --color-link-hover: #666666;
+  --color-frame: #ffffff;
+  --color-frame-shadow: rgba(0, 0, 0, 0.14);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 72px 24px 48px;
+  font-family: 'Inter', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background-color: #ece9e4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M48 0H0V48' fill='none' stroke='%23c8c2ba' stroke-width='0.6' stroke-dasharray='4 5'/%3E%3C/svg%3E");
+}
+
+.box {
+  position: relative;
+}
+
+.card-stack {
+  position: relative;
+  z-index: 1;
+  width: 400px;
+  min-height: 430px;
+  cursor: default;
+}
+
+.card-stack--swapping {
+  pointer-events: none;
+}
+
+.card-stack--swapping .container {
+  transition: none !important;
+}
+
+.card-stack--hovered:not(.card-stack--swapping) .container {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.form-deck {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  min-height: 430px;
+  isolation: isolate;
+}
+
+.form-deck .container {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  width: 100%;
+  min-height: 430px;
+  padding: 16px;
+  background: var(--color-frame);
+  border-radius: 6px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  transform-origin: 50% 88%;
+  backface-visibility: hidden;
+  transition: none;
+}
+
+.form-deck .container--swap-out,
+.form-deck .container--swap-in,
+.form-deck .container--swap-third {
+  pointer-events: none;
+  transition: none !important;
+  will-change: transform;
+}
+
+.form-deck .container--swap-out {
+  z-index: 15;
+  animation: cardSwapOut 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.form-deck .container--swap-out.container--to-left {
+  animation-name: cardSwapOutToLeft;
+}
+
+.form-deck .container--swap-out.container--to-right {
+  animation-name: cardSwapOutToRight;
+}
+
+.form-deck .container--swap-in {
+  z-index: 25;
+  animation: cardSwapIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.form-deck .container--swap-in.container--from-left {
+  animation-name: cardSwapInFromLeft;
+}
+
+.form-deck .container--swap-in.container--from-right {
+  animation-name: cardSwapInFromRight;
+}
+
+.form-deck .container--swap-third {
+  z-index: 10;
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+.form-deck .container--swap-third.container--third-left-to-right {
+  animation-name: cardThirdLeftToRight;
+}
+
+.form-deck .container--swap-third.container--third-right-to-left {
+  animation-name: cardThirdRightToLeft;
+}
+
+@keyframes cardSwapOut {
+  from {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+  to {
+    transform: rotate(2deg) translate3d(4px, 12px, 0);
+  }
+}
+
+@keyframes cardSwapIn {
+  from {
+    transform: rotate(0deg) translate3d(0, 10px, 0);
+  }
+  to {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes cardSwapInFromLeft {
+  from {
+    transform: rotate(-7deg) translate3d(-18px, 10px, 0);
+  }
+  to {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes cardSwapInFromRight {
+  from {
+    transform: rotate(6deg) translate3d(16px, 8px, 0);
+  }
+  to {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes cardSwapOutToLeft {
+  from {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+  to {
+    transform: rotate(-7deg) translate3d(-18px, 10px, 0);
+  }
+}
+
+@keyframes cardSwapOutToRight {
+  from {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+  to {
+    transform: rotate(6deg) translate3d(16px, 8px, 0);
+  }
+}
+
+@keyframes cardThirdLeftToRight {
+  from {
+    transform: rotate(-7deg) translate3d(-18px, 10px, 0);
+  }
+  to {
+    transform: rotate(6deg) translate3d(16px, 8px, 0);
+  }
+}
+
+@keyframes cardThirdRightToLeft {
+  from {
+    transform: rotate(6deg) translate3d(16px, 8px, 0);
+  }
+  to {
+    transform: rotate(-7deg) translate3d(-18px, 10px, 0);
+  }
+}
+
+.form-deck .container--back-left {
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
+  transform: rotate(-7deg) translate3d(-18px, 10px, 0);
+}
+
+.form-deck .container--back-right {
+  z-index: 11;
+  pointer-events: auto;
+  cursor: pointer;
+  transform: rotate(6deg) translate3d(16px, 8px, 0);
+}
+
+.form-deck .container--back-left .form,
+.form-deck .container--back-right .form {
+  pointer-events: none;
+  user-select: none;
+}
+
+.form-deck .container--active {
+  z-index: 20;
+  pointer-events: auto;
+  cursor: default;
+  transform: translate3d(0, 0, 0);
+}
+
+.card-stack--hovered:not(.card-stack--swapping) .container.container--back-left {
+  transform: rotate(-8deg) translate3d(-26px, 6px, 0);
+}
+
+.card-stack--hovered:not(.card-stack--swapping) .container.container--back-right {
+  transform: rotate(7deg) translate3d(24px, 6px, 0);
+}
+
+.card-stack--hovered:not(.card-stack--swapping) .container.container--active {
+  transform: translate3d(0, -4px, 0);
+}
+
+/* 悬停时切换：直接从展开位到展开位，不在中间收拢停顿 */
+.card-stack--hovered.card-stack--swapping .container--back-left {
+  transform: rotate(-8deg) translate3d(-26px, 6px, 0);
+}
+
+.card-stack--hovered.card-stack--swapping .container--back-right {
+  transform: rotate(7deg) translate3d(24px, 6px, 0);
+}
+
+.card-stack--hovered.card-stack--swapping .container--swap-out.container--to-left {
+  animation-name: cardSwapOutToLeftExpanded;
+}
+
+.card-stack--hovered.card-stack--swapping .container--swap-out.container--to-right {
+  animation-name: cardSwapOutToRightExpanded;
+}
+
+.card-stack--hovered.card-stack--swapping .container--swap-in.container--from-left {
+  animation-name: cardSwapInFromLeftExpanded;
+}
+
+.card-stack--hovered.card-stack--swapping .container--swap-in.container--from-right {
+  animation-name: cardSwapInFromRightExpanded;
+}
+
+.card-stack--hovered.card-stack--swapping .container--swap-third.container--third-left-to-right {
+  animation-name: cardThirdLeftToRightExpanded;
+}
+
+.card-stack--hovered.card-stack--swapping .container--swap-third.container--third-right-to-left {
+  animation-name: cardThirdRightToLeftExpanded;
+}
+
+@keyframes cardSwapOutToLeftExpanded {
+  from {
+    transform: translate3d(0, -4px, 0);
+  }
+  to {
+    transform: rotate(-8deg) translate3d(-26px, 6px, 0);
+  }
+}
+
+@keyframes cardSwapOutToRightExpanded {
+  from {
+    transform: translate3d(0, -4px, 0);
+  }
+  to {
+    transform: rotate(7deg) translate3d(24px, 6px, 0);
+  }
+}
+
+@keyframes cardSwapInFromLeftExpanded {
+  from {
+    transform: rotate(-8deg) translate3d(-26px, 6px, 0);
+  }
+  to {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+@keyframes cardSwapInFromRightExpanded {
+  from {
+    transform: rotate(7deg) translate3d(24px, 6px, 0);
+  }
+  to {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+@keyframes cardThirdLeftToRightExpanded {
+  from {
+    transform: rotate(-8deg) translate3d(-26px, 6px, 0);
+  }
+  to {
+    transform: rotate(7deg) translate3d(24px, 6px, 0);
+  }
+}
+
+@keyframes cardThirdRightToLeftExpanded {
+  from {
+    transform: rotate(7deg) translate3d(24px, 6px, 0);
+  }
+  to {
+    transform: rotate(-8deg) translate3d(-26px, 6px, 0);
+  }
+}
+
+
+.form {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 36px 32px;
+  background: var(--color-card);
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.form h2 {
+  position: relative;
+  display: inline-block;
+  color: var(--color-text);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0 0 24px;
+  padding-bottom: 8px;
+}
+
+.form h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-text);
+}
+
+.form .inputBox {
+  width: 100%;
+}
+
+.form .inputBox + .inputBox:not(.inputBox--submit) {
+  margin-top: 14px;
+}
+
+.form .inputBox--submit {
+  margin-top: 20px;
+}
+
+.form .inputBox input:not([type='submit']) {
+  width: 100%;
+  background: #ffffff;
+  outline: none;
+  padding: 12px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border-input);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-text);
+  transition: border-color 0.2s ease;
+}
+
+.form .inputBox input:not([type='submit'])::placeholder {
+  color: var(--color-text-muted);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.form .inputBox input:not([type='submit']):focus {
+  border-color: var(--color-border-input-focus);
+}
+
+.form .inputBox input[type='submit'] {
+  width: auto;
+  display: inline-block;
+  background: var(--color-btn);
+  color: #ffffff;
+  padding: 12px 34px;
+  border-radius: 999px;
+  border: 1px solid var(--color-btn);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.form .inputBox input[type='submit']:hover {
+  background: var(--color-btn-hover);
+  border-color: var(--color-btn-hover);
+}
+
+.form .inputBox input[type='submit']:active {
+  transform: scale(1);
+}
+
+.forget {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(44, 44, 44, 0.36);
+  line-height: 1.5;
+}
+
+.forget:first-of-type {
+  margin-top: 24px;
+}
+
+.forget + .forget {
+  margin-top: 10px;
+}
+
+.forget a {
+  color: rgba(44, 44, 44, 0.5);
+  font-weight: 400;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+}
+
+.forget a:hover {
+  color: rgba(44, 44, 44, 0.72);
+  text-decoration-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-deck .container {
+    transition: none;
+  }
+
+  .card-stack--hovered .container.container--back-left,
+  .card-stack--hovered .container.container--back-right,
+  .card-stack--hovered .container.container--active {
+    transform: none;
+  }
+
+  .form-deck .container--swap-out,
+  .form-deck .container--swap-in,
+  .form-deck .container--swap-third {
+    animation: none;
+    will-change: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-stack,
+  .form-deck,
+  .container {
+    width: min(100%, 360px);
+    min-height: auto;
+  }
+}
